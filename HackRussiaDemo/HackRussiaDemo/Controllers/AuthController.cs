@@ -14,12 +14,22 @@ namespace HackRussiaDemo.Controllers
     /// </summary>
     public class AuthController : ApiController
     {
+        [HttpPost]
         /// <summary>
         /// Проверка, существует ли пользователь
         /// </summary>
-        public bool checkIfExists(string email)
+        public string startSession(string email)
         {
-            return dbLogic.checkIfExists(email);
+            if(!dbLogic.checkIfExists(email))
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = "User not found"}
+                    );
+            }
+            else
+            {
+                return "authstring";
+            }
         }
 
         /// <summary>
@@ -29,7 +39,7 @@ namespace HackRussiaDemo.Controllers
         /// <param name="authToken">Авторизационный токен кошелька</param>
         /// <param name="audioSample">Голосовой образец</param>
         /// <returns></returns>
-        public bool createUser(string email, string authToken, byte[] audioSample)
+        public bool createUser(string email, string authToken, string password, byte[] audioSample)
         {
             return true;
         }
@@ -40,7 +50,7 @@ namespace HackRussiaDemo.Controllers
         /// <param name="email">Email пользователя</param>
         /// <param name="audioSample">Голосовой образец</param>
         /// <returns></returns>
-        public bool verifyUser(string email, byte[] audioSample)
+        public bool verifyUser(string email, string pasword, byte[] audioSample)
         {
             return true;
         }
