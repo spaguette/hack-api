@@ -149,15 +149,24 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\accountInfo.cs" />
+    <Compile Include="Models\createUserRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BiometricsManager\BiometricsManager.csproj">
+      <Project>{39c49afa-aa54-4e51-8983-a3121c8ea2ba}</Project>
+      <Name>BiometricsManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DatabaseManager\DatabaseManager.csproj">
       <Project>{82201ad0-5dcb-4db4-9ea0-d459f126646b}</Project>
       <Name>DatabaseManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WalletManager\WalletManager.csproj">
+      <Project>{b4de6f21-a8ff-484d-bb82-1d9d6fb8b659}</Project>
+      <Name>WalletManager</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
