@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 
 using DatabaseManager;
+using HackRussiaDemo.Models;
 
 namespace HackRussiaDemo.Controllers
 {
@@ -28,19 +29,22 @@ namespace HackRussiaDemo.Controllers
             }
             else
             {
-                return "authstring";
+                return 
+                    String.Join(" ",
+                    BiometricsManager.digitsProcessor
+                    .digitHumanizer(BiometricsManager.digitsProcessor.getRandomDigits()));
             }
         }
 
         /// <summary>
         /// Создание нового пользователя
         /// </summary>
-        /// <param name="email">Email пользователя</param>
-        /// <param name="authToken">Авторизационный токен кошелька</param>
-        /// <param name="audioSample">Голосовой образец</param>
+        /// <param name="req"></param>
         /// <returns></returns>
-        public bool createUser(string email, string authToken, string password, byte[] audioSample)
+        public bool createUser(createUserRequest req)
         {
+
+
             return true;
         }
 
