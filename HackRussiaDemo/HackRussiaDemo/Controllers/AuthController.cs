@@ -60,6 +60,8 @@ namespace HackRussiaDemo.Controllers
                     );
             }
 
+            dbLogic.insertUser(req.email, req.authToken);
+
             return true;
         }
 

@@ -25,5 +25,21 @@ namespace DatabaseManager
                 return db.Users.Where(t => t.email == email).Count() > 0;
             }
         }
+
+        public static bool insertUser(string email, string authToken)
+        {
+            using (var db = new HackRussiaTestDBEntities())
+            {
+                db.Users.Add(new Users()
+                {
+                    email = email,
+                    OAuth = authToken
+                });
+
+                db.SaveChanges();
+            }
+
+            return true;
+        }
     }
 }
