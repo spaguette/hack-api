@@ -12,6 +12,12 @@ namespace HackRussiaDemo.Controllers
     /// </summary>
     public class AuthController : ApiController
     {
-
+        /// <summary>
+        /// Проверка, существует ли пользователь
+        /// </summary>
+        public bool checkIfExists(string email)
+        {
+            return false;
+        }
     }
 }
