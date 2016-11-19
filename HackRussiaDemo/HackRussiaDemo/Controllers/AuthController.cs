@@ -53,28 +53,28 @@ namespace HackRussiaDemo.Controllers
         }
 
 
-        //public bool createUser(createUserRequest req)
-        //{
-        //    BiometricsLogic.createPerson(
-        //        req.email,
-        //        req.voiceSamples[0].password,
-        //        req.voiceSamples[0].data
-        //        );
+        public bool createUser(createUserRequest req)
+        {
+            BiometricsLogic.createPerson(
+                req.email,
+                req.voiceSamples[0].password,
+                req.voiceSamples[0].data
+                );
 
 
-        //    for(int i = 1; i < 3; i++)
-        //    {
-        //        BiometricsLogic.addVoiceModel(
-        //            req.email,
-        //            req.voiceSamples[i].password,
-        //            req.voiceSamples[i].data
-        //            );
-        //    }
+            for (int i = 1; i < 3; i++)
+            {
+                BiometricsLogic.addVoiceModel(
+                    req.email,
+                    req.voiceSamples[i].password,
+                    req.voiceSamples[i].data
+                    );
+            }
 
-        //    dbLogic.insertUser(req.email, req.authToken);
+            dbLogic.insertUser(req.email, req.authToken);
 
-        //    return true;
-        //}
+            return true;
+        }
 
         /// <summary>
         /// Верификация пользователя
