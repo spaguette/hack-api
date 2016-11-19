@@ -13,6 +13,6 @@ namespace HackRussiaDemo.Models
 
         public string authToken { get; set; }
 
-        public AudioRecord voiceSamples { get; set; }
+        public List<AudioRecord> voiceSamples { get; set; }
     }
 }
