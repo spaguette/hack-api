@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 
 using DatabaseManager;
+using BiometricsManager;
 using HackRussiaDemo.Models;
 
 namespace HackRussiaDemo.Controllers
@@ -43,7 +44,21 @@ namespace HackRussiaDemo.Controllers
         /// <returns></returns>
         public bool createUser(createUserRequest req)
         {
+            BiometricsLogic.createPerson(
+                req.email,
+                req.voiceSamples[0].password,
+                req.voiceSamples[0].data
+                );
 
+            
+            for(int i = 1; i < 3; i++)
+            {
+                BiometricsLogic.addVoiceModel(
+                    req.email,
+                    req.voiceSamples[i].password,
+                    req.voiceSamples[i].data
+                    );
+            }
 
             return true;
         }
@@ -54,9 +69,9 @@ namespace HackRussiaDemo.Controllers
         /// <param name="email">Email пользователя</param>
         /// <param name="audioSample">Голосовой образец</param>
         /// <returns></returns>
-        public bool verifyUser(string email, string pasword, byte[] audioSample)
+        public double verifyUser(string email, string password, byte[] audioSample)
         {
-            return true;
+            return BiometricsLogic.startVerification(email, password, audioSample);
         }
     }
 }

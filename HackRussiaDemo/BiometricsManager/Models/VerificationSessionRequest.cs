@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace BiometricsManager.Models
 {
-    public class AudioRecord
+    public class VerificationSessionRequest
     {
+        public string personId { get; set; }
+
         public string password { get; set; }
+
         public byte[] data { get; set; }
     }
 }

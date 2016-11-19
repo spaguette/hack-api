@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace BiometricsManager.Models
 {
-    public class StartVerificationSessionResponse
+    public class Score
     {
-        public string verificationId { get; set; }
-
-        public string password { get; set; }
+        public double value { get; set; }
     }
 }

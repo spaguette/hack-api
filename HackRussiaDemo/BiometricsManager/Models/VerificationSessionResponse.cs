@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace BiometricsManager.Models
 {
-    public class AudioRecord
+    public class VerificationSessionResponse
     {
-        public string password { get; set; }
-        public byte[] data { get; set; }
+        public Score score { get; set; }
     }
 }
