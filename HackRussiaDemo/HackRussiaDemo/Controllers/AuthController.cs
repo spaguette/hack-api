@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
+using DatabaseManager;
+
 namespace HackRussiaDemo.Controllers
 {
     /// <summary>
@@ -17,7 +19,30 @@ namespace HackRussiaDemo.Controllers
         /// </summary>
         public bool checkIfExists(string email)
         {
-            return false;
+            return dbLogic.checkIfExists(email);
+        }
+
+        /// <summary>
+        /// Создание нового пользователя
+        /// </summary>
+        /// <param name="email">Email пользователя</param>
+        /// <param name="authToken">Авторизационный токен кошелька</param>
+        /// <param name="audioSample">Голосовой образец</param>
+        /// <returns></returns>
+        public bool createUser(string email, string authToken, byte[] audioSample)
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Верификация пользователя
+        /// </summary>
+        /// <param name="email">Email пользователя</param>
+        /// <param name="audioSample">Голосовой образец</param>
+        /// <returns></returns>
+        public bool verifyUser(string email, byte[] audioSample)
+        {
+            return true;
         }
     }
 }
