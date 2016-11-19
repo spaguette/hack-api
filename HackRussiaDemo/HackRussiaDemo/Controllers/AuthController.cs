@@ -17,12 +17,9 @@ namespace HackRussiaDemo.Controllers
     public class AuthController : ApiController
     {
         [HttpPost]
-        /// <summary>
-        /// Проверка, существует ли пользователь
-        /// </summary>
-        public string startSession(string email)
+        public string startSession(startSessionRequest req)
         {
-            if(!dbLogic.checkIfExists(email))
+            if(!dbLogic.checkIfExists(req.email))
             {
                 throw new HttpResponseException(
                     new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = "User not found"}
@@ -32,38 +29,52 @@ namespace HackRussiaDemo.Controllers
             {
                 return 
                     String.Join(" ",
-                    BiometricsManager.digitsProcessor
-                    .digitHumanizer(BiometricsManager.digitsProcessor.getRandomDigits()));
+                    digitsProcessor
+                    .digitHumanizer(digitsProcessor.getRandomDigits()));
             }
         }
 
-        /// <summary>
-        /// Создание нового пользователя
-        /// </summary>
-        /// <param name="req"></param>
-        /// <returns></returns>
-        public bool createUser(createUserRequest req)
+        [HttpGet]
+        public string startSession(string email)
         {
-            BiometricsLogic.createPerson(
-                req.email,
-                req.voiceSamples[0].password,
-                req.voiceSamples[0].data
-                );
-
-            
-            for(int i = 1; i < 3; i++)
+            if (!dbLogic.checkIfExists(email))
             {
-                BiometricsLogic.addVoiceModel(
-                    req.email,
-                    req.voiceSamples[i].password,
-                    req.voiceSamples[i].data
+                throw new HttpResponseException(
+                    new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = "User not found" }
                     );
             }
-
-            dbLogic.insertUser(req.email, req.authToken);
-
-            return true;
+            else
+            {
+                return
+                    String.Join(" ",
+                    digitsProcessor
+                    .digitHumanizer(digitsProcessor.getRandomDigits()));
+            }
         }
+
+
+        //public bool createUser(createUserRequest req)
+        //{
+        //    BiometricsLogic.createPerson(
+        //        req.email,
+        //        req.voiceSamples[0].password,
+        //        req.voiceSamples[0].data
+        //        );
+
+
+        //    for(int i = 1; i < 3; i++)
+        //    {
+        //        BiometricsLogic.addVoiceModel(
+        //            req.email,
+        //            req.voiceSamples[i].password,
+        //            req.voiceSamples[i].data
+        //            );
+        //    }
+
+        //    dbLogic.insertUser(req.email, req.authToken);
+
+        //    return true;
+        //}
 
         /// <summary>
         /// Верификация пользователя

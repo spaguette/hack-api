@@ -150,6 +150,7 @@
     </Compile>
     <Compile Include="Models\accountInfo.cs" />
     <Compile Include="Models\createUserRequest.cs" />
+    <Compile Include="Models\startSessionRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

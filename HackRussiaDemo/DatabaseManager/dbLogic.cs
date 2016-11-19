@@ -22,7 +22,7 @@ namespace DatabaseManager
         {
             using (var db = new HackRussiaTestDBEntities())
             {
-                return db.Users.Where(t => t.email == email).Count() > 0;
+                return (db.Users.Where(t => t.email == email).Count() > 0);
             }
         }
 
