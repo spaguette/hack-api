@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HackRussiaDemo", "HackRussiaDemo\HackRussiaDemo.csproj", "{90A01343-7C37-4DC8-A9A1-0C3FD4C9D64E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BiometricsManager", "BiometricsManager\BiometricsManager.csproj", "{39C49AFA-AA54-4E51-8983-A3121C8EA2BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletManager", "WalletManager\WalletManager.csproj", "{B4DE6F21-A8FF-484D-BB82-1D9D6FB8B659}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90A01343-7C37-4DC8-A9A1-0C3FD4C9D64E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90A01343-7C37-4DC8-A9A1-0C3FD4C9D64E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90A01343-7C37-4DC8-A9A1-0C3FD4C9D64E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90A01343-7C37-4DC8-A9A1-0C3FD4C9D64E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39C49AFA-AA54-4E51-8983-A3121C8EA2BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39C49AFA-AA54-4E51-8983-A3121C8EA2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39C49AFA-AA54-4E51-8983-A3121C8EA2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39C49AFA-AA54-4E51-8983-A3121C8EA2BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4DE6F21-A8FF-484D-BB82-1D9D6FB8B659}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4DE6F21-A8FF-484D-BB82-1D9D6FB8B659}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4DE6F21-A8FF-484D-BB82-1D9D6FB8B659}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4DE6F21-A8FF-484D-BB82-1D9D6FB8B659}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
