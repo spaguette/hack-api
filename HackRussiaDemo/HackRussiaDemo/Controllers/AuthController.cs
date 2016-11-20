@@ -95,7 +95,7 @@ namespace HackRussiaDemo.Controllers
                 req.voiceSample.data
                 );
 
-                return new { ModelsToRecord = modelsToRecord };
+                return new { count = modelsToRecord, password = "9876543210" };
             }
             else
             {
@@ -110,7 +110,7 @@ namespace HackRussiaDemo.Controllers
 
                 dbLogic.updateUser(usr.Id, usr);
 
-                return new { ModelsToRecord = res };
+                return new { count = res, password = "8523697410" };
             }
         }
 
