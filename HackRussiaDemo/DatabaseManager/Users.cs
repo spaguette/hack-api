@@ -17,5 +17,7 @@ namespace DatabaseManager
         public int Id { get; set; }
         public string email { get; set; }
         public string OAuth { get; set; }
+        public string textPassword { get; set; }
+        public int VoiceModels { get; set; }
     }
 }

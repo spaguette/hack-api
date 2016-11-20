@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 
 using DatabaseManager;
 using BiometricsManager;
 using HackRussiaDemo.Models;
+using HackRussiaDemo.Properties;
 
 namespace HackRussiaDemo.Controllers
 {
@@ -17,9 +20,10 @@ namespace HackRussiaDemo.Controllers
     public class AuthController : ApiController
     {
         [HttpPost]
-        public string startSession(startSessionRequest req)
+        [Route("api/Auth/startSession")]
+        public HttpResponseMessage startSession(startSessionRequest req)
         {
-            if(!dbLogic.checkIfExists(req.email))
+            if(dbLogic.getUser(req.email) == null)
             {
                 throw new HttpResponseException(
                     new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = "User not found"}
@@ -27,38 +31,68 @@ namespace HackRussiaDemo.Controllers
             }
             else
             {
-                return 
-                    String.Join(" ",
+                var respMessage = new HttpResponseMessage();
+                respMessage.Content = new StringContent(string.Join(" ",
                     digitsProcessor
-                    .digitHumanizer(digitsProcessor.getRandomDigits()));
+                    .digitHumanizer(digitsProcessor.getRandomDigits())));
+
+                var cookie = new CookieHeaderValue("sessionHeader", CryptoManager.encodeData(req.email));
+                cookie.Expires = DateTimeOffset.Now.AddDays(1/2);
+                cookie.Domain = Request.RequestUri.Host;
+                cookie.HttpOnly = true;
+                cookie.Path = "/";
+                respMessage.Headers.AddCookies(new CookieHeaderValue[] { cookie });
+                return respMessage;
             }
         }
 
-        [HttpGet]
-        public string startSession(string email)
+        /*[HttpPost]
+        [Route("api/Auth/createUser")]
+        public object createUser(userRequest req)
         {
-            if (!dbLogic.checkIfExists(email))
+            req.authToken = "no yandex";
+
+            if(!checkCookie(Request, req.email))
             {
                 throw new HttpResponseException(
-                    new HttpResponseMessage(HttpStatusCode.BadRequest) { ReasonPhrase = "User not found" }
+                    new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "User not authorized!" }
                     );
             }
-            else
-            {
-                return
-                    String.Join(" ",
-                    digitsProcessor
-                    .digitHumanizer(digitsProcessor.getRandomDigits()));
-            }
-        }
 
-
-        public bool createUser(createUserRequest req)
-        {
-            BiometricsLogic.createPerson(
+            var modelsToRecord = BiometricsLogic.createPerson(
                 req.email,
-                req.voiceSamples[0].password,
-                req.voiceSamples[0].data
+                req.voiceSamples.password,
+                req.voiceSamples.data
+                );
+
+            dbLogic.insertUser(req.email, req.authToken, 1);
+
+            return new { ModelsToRecord = modelsToRecord };
+        }*/
+
+
+        [HttpPost]
+        [Route("api/Auth/addVoiceModel")]
+        public object addVoiceModel(userRequest req)
+        {
+            /*if (!checkCookie(Request, req.email))
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "User not authorized!" }
+                    );
+            }*/
+
+            req.authToken = "no yandex";
+            req.voiceSample.password = "ноль один два три четыре пять шесть семь восемь девять";
+
+            var usr = dbLogic.getUser(req.email);
+
+            if(usr == null)
+            {
+                var modelsToRecord = BiometricsLogic.createPerson(
+                req.email,
+                req.voiceSample.password,
+                req.voiceSample.data
                 );
 
             
@@ -73,27 +107,54 @@ namespace HackRussiaDemo.Controllers
 
             for (int i = 1; i < 3; i++)
             {
-                BiometricsLogic.addVoiceModel(
-                    req.email,
-                    req.voiceSamples[i].password,
-                    req.voiceSamples[i].data
+                var modelsToRecord = BiometricsLogic.addVoiceModel(
+                req.email,
+                req.voiceSample.password,
+                req.voiceSample.data,
+                usr.VoiceModels
+                );
+
+                usr.VoiceModels++;
+
+                dbLogic.updateUser(usr.Id, usr);
+
+                return new { ModelsToRecord = modelsToRecord };
+            }
+        }
+
+        [HttpPost]
+        [Route("api/Auth/verifyUser")]
+        public double verifyUser(string email, string password, string audioSample)
+        {
+            if (!checkCookie(Request, email))
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "User not authorized!" }
                     );
             }
 
-            dbLogic.insertUser(req.email, req.authToken);
-
-            return true;
+            return BiometricsLogic.startVerification(email, password, audioSample);
         }
 
-        /// <summary>
-        /// Верификация пользователя
-        /// </summary>
-        /// <param name="email">Email пользователя</param>
-        /// <param name="audioSample">Голосовой образец</param>
-        /// <returns></returns>
-        public double verifyUser(string email, string password, byte[] audioSample)
+        public bool checkCookie(HttpRequestMessage req, string email)
         {
-            return BiometricsLogic.startVerification(email, password, audioSample);
+            var cookie = req.Headers.GetCookies("sessionHeader").FirstOrDefault();
+
+            if(cookie == null)
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "No auth token!" }
+                    );
+            }
+
+            if(dbLogic.getUser(email).email != CryptoManager.decrypt(cookie["sessionHeader"].Value))
+            {
+                throw new HttpResponseException(
+                    new HttpResponseMessage(HttpStatusCode.Unauthorized) { ReasonPhrase = "Incorrect auth token!" }
+                    );
+            }
+
+            return true;
         }
     }
 }

@@ -18,28 +18,46 @@ namespace DatabaseManager
         /// </summary>
         /// <param name="email">Email пользователя</param>
         /// <returns></returns>
-        public static bool checkIfExists(string email)
+        public static Users getUser(string email)
         {
             using (var db = new HackRussiaTestDBEntities())
             {
-                return (db.Users.Where(t => t.email == email).Count() > 0);
+                return db.Users.Where(t => t.email == email).FirstOrDefault();
             }
         }
 
-        public static bool insertUser(string email, string authToken)
+        public static bool insertUser(string email, string authToken, int voiceModels, string textpassword="")
         {
             using (var db = new HackRussiaTestDBEntities())
             {
                 db.Users.Add(new Users()
                 {
                     email = email,
-                    OAuth = authToken
+                    OAuth = authToken,
+                    VoiceModels = voiceModels,
+                    textPassword = textpassword
                 });
 
                 db.SaveChanges();
             }
 
             return true;
+        }
+
+        public static bool updateUser(int userId, Users user)
+        {
+            using (var db = new HackRussiaTestDBEntities())
+            {
+                var usr = db.Users.Single(u => u.Id == userId);
+
+                usr = user;
+                usr.Id = userId;
+
+                db.SaveChanges();
+
+                return true;
+
+            }
         }
     }
 }

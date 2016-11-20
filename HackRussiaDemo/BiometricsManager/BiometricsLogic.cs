@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Net;
+using System.IO;
 using Newtonsoft.Json;
+using System.Web;
 
 using BiometricsManager.Properties;
 using BiometricsManager.Models;
@@ -14,7 +16,7 @@ namespace BiometricsManager
 {
     public static class BiometricsLogic
     {
-        public static bool createPerson(string personId, string password, byte[] audioData)
+        public static int createPerson(string personId, string password, string audioData)
         {
             using (var client = new WebClient())
             {
@@ -34,19 +36,24 @@ namespace BiometricsManager
 
                     var addModelRequest = JsonConvert.SerializeObject(new AudioRecord()
                     {
-                        data = audioData,
+                        data = audioData.Substring(22),
                         password = password
                     });
 
+                    //var addModelRequest = "{\"password\": \""+password+"\", \"data\": \""+ audioData.Substring(22) + "\"}";
+
                     client.UploadString(
                          String.Format("{0}person/{1}/dynamic/file", Settings.Default.VoiceKeyHost, personId),
+                         "POST",
                          addModelRequest
                         );
 
-                    return true;
+                    return Settings.Default.VoiceModelsCount-1;
                 }
                 catch (WebException ex)
                 {
+                    var resp = new StreamReader(ex.Response.GetResponseStream()).ReadToEnd();
+
                     var response = client.UploadString(
                         String.Format("{0}person/{1}",
                         Settings.Default.VoiceKeyHost, personId),
@@ -58,7 +65,7 @@ namespace BiometricsManager
             }
         }
 
-        public static bool addVoiceModel(string personId, string password, byte[] audioData)
+        public static int addVoiceModel(string personId, string password, string audioData, int currentVoiceModelsCnt)
         {
             try
             {
@@ -81,7 +88,7 @@ namespace BiometricsManager
                         );
                 }
 
-                return true;
+                return (Settings.Default.VoiceModelsCount - currentVoiceModelsCnt);
             }
             catch (WebException ex)
             {
@@ -89,7 +96,7 @@ namespace BiometricsManager
             }
         }
 
-        public static double startVerification(string personId, string password, byte[] audioData)
+        public static double startVerification(string personId, string password, string audioData)
         {
             using (var client = new WebClient())
             {

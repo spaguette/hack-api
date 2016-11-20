@@ -7,12 +7,12 @@ using BiometricsManager.Models;
 
 namespace HackRussiaDemo.Models
 {
-    public class createUserRequest
+    public class userRequest
     {
         public string email { get; set; }
 
         public string authToken { get; set; }
 
-        public List<AudioRecord> voiceSamples { get; set; }
+        public AudioRecord voiceSample { get; set; }
     }
 }

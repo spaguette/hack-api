@@ -26,7 +26,7 @@ namespace WalletManager
                     "POST", Encoding.UTF8.GetBytes("")
                     );
 
-                return response;
+                return Encoding.Default.GetString(response);
             }
         }
     }

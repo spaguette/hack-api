@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BiometricsManager.Properties {
+namespace HackRussiaDemo.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,19 +25,19 @@ namespace BiometricsManager.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://vkplatform.speechpro.com/vkapi/rest/")]
-        public string VoiceKeyHost {
+        [global::System.Configuration.DefaultSettingValueAttribute("HackRussia2016")]
+        public string authKey {
             get {
-                return ((string)(this["VoiceKeyHost"]));
+                return ((string)(this["authKey"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
-        public int VoiceModelsCount {
+        [global::System.Configuration.DefaultSettingValueAttribute("someSecret")]
+        public string authIV {
             get {
-                return ((int)(this["VoiceModelsCount"]));
+                return ((string)(this["authIV"]));
             }
         }
     }
