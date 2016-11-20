@@ -40,7 +40,7 @@ namespace BiometricsManager
                         password = password
                     });
 
-                    //var addModelRequest = "{\"password\": \""+password+"\", \"data\": \""+ audioData.Substring(22) + "\"}";
+                    client.Headers[HttpRequestHeader.ContentType] = "application/json";
 
                     client.UploadString(
                          String.Format("{0}person/{1}/dynamic/file", Settings.Default.VoiceKeyHost, personId),

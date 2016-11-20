@@ -87,7 +87,7 @@ namespace HackRussiaDemo.Controllers
 
             var usr = dbLogic.getUser(req.email);
 
-            if(usr == null)
+            if (usr == null)
             {
                 var modelsToRecord = BiometricsLogic.createPerson(
                 req.email,
@@ -95,30 +95,22 @@ namespace HackRussiaDemo.Controllers
                 req.voiceSample.data
                 );
 
-            
-            for(int i = 1; i < 3; i++)
-            {
-                BiometricsLogic.addVoiceModel(
-                    req.email,
-                    req.voiceSamples[i].password,
-                    req.voiceSamples[i].data
-                    );
+                return new { ModelsToRecord = modelsToRecord };
             }
-
-            for (int i = 1; i < 3; i++)
+            else
             {
-                var modelsToRecord = BiometricsLogic.addVoiceModel(
-                req.email,
-                req.voiceSample.password,
-                req.voiceSample.data,
-                usr.VoiceModels
-                );
+                var res = BiometricsLogic.addVoiceModel(
+                   req.email,
+                   req.voiceSample.password,
+                   req.voiceSample.data,
+                   usr.VoiceModels
+                   );
 
                 usr.VoiceModels++;
 
                 dbLogic.updateUser(usr.Id, usr);
 
-                return new { ModelsToRecord = modelsToRecord };
+                return new { ModelsToRecord = res };
             }
         }
 
